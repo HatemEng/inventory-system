@@ -9,7 +9,7 @@
                 <h4>Login</h4>
             </div>
             <div class="card-body">
-                <form method="post" asp-coontroller="home", asp-action="ProcessLogin">
+                <form method="post" asp-coontroller="home" asp-controller="Auth" asp-action="ProcessLogin">
                     <input type="text" name="username" placeholder="Username..." class="form-control mb-3">
                     <input type="password" name="password" placeholder="Password..." class="form-control">
                     <small class="text-danger">@ViewBag.error</small>
@@ -20,3 +20,4 @@
         </div>
     </div>
 </div>
+

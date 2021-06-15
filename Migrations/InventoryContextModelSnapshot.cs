@@ -51,7 +51,7 @@ namespace Inventory.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Customer");
+                    b.ToTable("Customers");
 
                     b.HasData(
                         new
@@ -108,7 +108,7 @@ namespace Inventory.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Employee");
+                    b.ToTable("Employees");
 
                     b.HasData(
                         new
@@ -139,6 +139,44 @@ namespace Inventory.Migrations
                             Salary = 1000,
                             UserId = 2
                         });
+                });
+
+            modelBuilder.Entity("Inventory.Models.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Category")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("DangerousLevel")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Manufactures")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Packing")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ScientificName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("TradeName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("Inventory.Models.User", b =>

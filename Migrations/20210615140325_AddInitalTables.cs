@@ -4,11 +4,39 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Inventory.Migrations
 {
-    public partial class AddUserTableAndRelated : Migration
+    public partial class AddInitalTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    TradeName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ScientificName = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Category = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Manufactures = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    DangerousLevel = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Packing = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.Id);
+                })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -30,7 +58,7 @@ namespace Inventory.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Customer",
+                name: "Customers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -53,9 +81,9 @@ namespace Inventory.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customer", x => x.Id);
+                    table.PrimaryKey("PK_Customers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Customer_Users_UserId",
+                        name: "FK_Customers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -64,7 +92,7 @@ namespace Inventory.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Employee",
+                name: "Employees",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -89,9 +117,9 @@ namespace Inventory.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employee", x => x.Id);
+                    table.PrimaryKey("PK_Employees", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Employee_Users_UserId",
+                        name: "FK_Employees_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -115,38 +143,41 @@ namespace Inventory.Migrations
                 values: new object[] { 3, true, "ali", "5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5" });
 
             migrationBuilder.InsertData(
-                table: "Customer",
+                table: "Customers",
                 columns: new[] { "Id", "Address", "City", "Email", "FirstName", "LastName", "Mobile", "PharmacyName", "UserId" },
                 values: new object[] { 1, "Baghdad", "Baghdad", "test@test.com", "Ali", "Ahamad", "07XXXXXXXXX", "T-Pharmacy", 3 });
 
             migrationBuilder.InsertData(
-                table: "Employee",
+                table: "Employees",
                 columns: new[] { "Id", "Address", "BirthDate", "Email", "FirstName", "Gender", "LastName", "Mobile", "Role", "Salary", "UserId" },
                 values: new object[] { 2, "Baghdad, Al-Sadir City", new DateTime(1996, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "test@test.com", "Hatem", "Male", "karim", "07XXXXXXXXX", "admin", 1000, 2 });
 
             migrationBuilder.InsertData(
-                table: "Employee",
+                table: "Employees",
                 columns: new[] { "Id", "Address", "BirthDate", "Email", "FirstName", "Gender", "LastName", "Mobile", "Role", "Salary", "UserId" },
                 values: new object[] { 1, "Baghdad, Karada", new DateTime(1996, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "test@test.com", "Hussain", "Male", "Nasir", "07XXXXXXXXX", "admin", 1000, 1 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customer_UserId",
-                table: "Customer",
+                name: "IX_Customers_UserId",
+                table: "Customers",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employee_UserId",
-                table: "Employee",
+                name: "IX_Employees_UserId",
+                table: "Employees",
                 column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Customer");
+                name: "Customers");
 
             migrationBuilder.DropTable(
-                name: "Employee");
+                name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "Users");

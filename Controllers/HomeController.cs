@@ -28,67 +28,78 @@ namespace Inventory.Controllers
             ViewBag.user_name = HttpContext.Session.GetString("user_name");
             if (string.IsNullOrWhiteSpace(ViewBag.user_name))
             {
-                TempData["error"] = "Please re-login, your session finished.";
-                return RedirectToAction("Login");
+                // TempData["error"] = "Please re-login, your session finished.";
+               // return RedirectToAction("Index", "Auth");
             }
-            return View();
+
+            return View(_inventoryContext.Items.ToList());
         }
-        [Route("login")]
-        public IActionResult Login()
-        {
-            ViewBag.error = TempData["error"] as string; 
-            return View();
-        }
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+    
+       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
-        [Route("process-login")]
-        public RedirectToActionResult ProcessLogin(string username, string password)
+
+        public IActionResult AddEditItem(
+            int id, 
+            string tradeName, 
+            string scientificName,
+            string category,
+            string manufactures, 
+            string dangerousLevel,
+            string packing,
+            int price, 
+            int quantity,
+            bool isActive)
         {
-            TempData["error"] = null;
-            // check the user and password if empty
-            if (string.IsNullOrWhiteSpace(username))
+            if (id > 0)
             {
-                TempData["error"] = "Please enter a valid username.";
-            }
-            else if (string.IsNullOrWhiteSpace(password))
-            {
-                TempData["error"] = "Please don't leave the password empty.";
+                // update existence
+                var item = _inventoryContext.Items.FirstOrDefault(p => p.Id == id);
+                if (item != null)
+                {
+                    item.TradeName = tradeName;
+                    item.ScientificName = scientificName;
+                    item.Category = category;
+                    item.Manufactures = manufactures;
+                    item.DangerousLevel = dangerousLevel;
+                    item.Packing = packing;
+                    item.Price = price;
+                    item.Quantity = quantity;
+                    item.IsActive = isActive;
+                }
+
             }
             else
             {
-                var cryptPassword = _inventoryContext.HashPassword(password);
-                var user = _inventoryContext.Users
-                    .FirstOrDefault(p => p.Name == username && p.Password == cryptPassword);
-                // login failed
-                if (user == null)
+                // add new
+                _inventoryContext.Items.Add(new Item()
                 {
-                    TempData["error"] = "Invalid account.";
-                }
-                else
-                {
-                    // login successful save the sessions 
-                    HttpContext.Session.SetInt32("user_id", user.Id);
-                    HttpContext.Session.SetString("user_name", user.Name);
-                }
+                    TradeName = tradeName,
+                    ScientificName = scientificName,
+                    Category = category,
+                    Manufactures = manufactures,
+                    DangerousLevel = dangerousLevel,
+                    Packing = packing,
+                    Price = price,
+                    Quantity = quantity,
+                    IsActive = isActive
+                });
             }
-            // if there error then redirect to login page with error message else go to the home page 
-            return RedirectToAction(TempData["error"] != null ? "Login" : "Index");
+            _inventoryContext.SaveChanges();  
+            return RedirectToAction("Index");
         }
 
-
-        public IActionResult Logout()
+        public IActionResult RemoveItem(int id)
         {
-            HttpContext.Session.Remove("user_name");
-            HttpContext.Session.Remove("user_id");
-            return RedirectToAction("Login");
+            var item = _inventoryContext.Items.SingleOrDefault(p => p.Id == id);
+            if (item == null) return RedirectToAction("Index");
+            _inventoryContext.Items.Remove(item);
+            _inventoryContext.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

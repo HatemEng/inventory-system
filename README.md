@@ -5,7 +5,7 @@
 
 ### features:-
 * Login page [&check;]
-* Manage inventory items
+* Manage inventory items [&check;]
 * Manage inventory orders requests
 * As customer can order items
 
