@@ -48,10 +48,25 @@ namespace Inventory.Controllers
                     // login successful save the sessions 
                     HttpContext.Session.SetInt32("user_id", user.Id);
                     HttpContext.Session.SetString("user_name", user.Name);
+                    var employee = _inventoryContext.Employees.FirstOrDefault(p => p.UserId == HttpContext.Session.GetInt32("user_id"));
+                    if (employee == null)
+                    {
+                        var customer = _inventoryContext.Customers.FirstOrDefault(p => p.UserId == HttpContext.Session.GetInt32("user_id"));
+                        if (customer != null)
+                        {
+                            HttpContext.Session.SetString("account_type", "customer");
+                            HttpContext.Session.SetInt32("customer_id", customer.Id);
+                        }
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetString("account_type", "employee");
+                        HttpContext.Session.SetInt32("employee_id", employee.Id);
+                    }
                 }
             }
             // if there error then redirect to login page with error message else go to the home page 
-            return TempData["error"] == null ? RedirectToAction("Index", "Home") : RedirectToAction("Index");
+            return TempData["error"] == null ? RedirectToAction("Index", "Items") : RedirectToAction("Index");
         }
 
 

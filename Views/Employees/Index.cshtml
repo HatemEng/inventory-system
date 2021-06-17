@@ -1,0 +1,178 @@
+﻿@{
+    ViewData["Title"] = "Employees";
+}
+@{ await Html.RenderPartialAsync("~/Views/Shared/Navigation.cshtml"); }
+
+<div class="container mt-5">
+    <button class="btn btn-primary mb-2" data-toggle="modal" onclick="resetModal()" data-target="#addModal">Add Empoyee</button>
+    <table class="table table-sm table-hover text-center">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Birth Date</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Address</th>
+            <th scope="col">Mobile</th>
+            <th scope="col">Email</th>
+            <th scope="col">Salary</th>
+            <th scope="col">Role</th>
+            <th>Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var employee in (List<Employee>) Model)
+        {
+            <tr>
+                <td>@employee.Id</td>
+                <td>@employee.FirstName</td>
+                <td>@employee.LastName</td>
+                <td>@employee.BirthDate.ToString("dd/MM/yyyy")</td>
+                <td>@employee.Gender</td>
+                <td>@(employee.Address ?? "-")</td>
+                <td>@(employee.Mobile ?? "-")</td>
+                <td>@employee.Email</td>
+                <td>@employee.Salary</td>
+                <td>@employee.Role</td>
+                <td>
+                    <a class="text-decoration-none mr-2" asp-controller="Employees" asp-action="Remove" asp-route-id="@employee.Id">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </a>
+                    <a href="#" onclick="openEditModal(@employee.Id, '@employee.User.Name', '@employee.FirstName', '@employee.LastName', '@employee.BirthDate.ToString("yyyy-MM-dd")', 
+                    '@employee.Address', '@employee.Mobile', '@employee.Email', @employee.Salary, '@employee.Gender', '@employee.Role')"
+                       class="ml-2 text-decoration-none" data-toggle="modal" data-target="#addModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                        </svg>
+                    </a>
+                </td>
+            </tr>
+        }
+
+        </tbody>
+    </table>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form asp-controller="Employees" asp-action="AddEdit">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel">Add Employee</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="number" class="form-control" hidden name="id">
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <lable>Username</lable>
+                            <input class="form-control" name="username" required minlength="3">
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <lable>Password</lable>
+                            <input type="password" class="form-control" name="password" required minlength="3">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <lable>First name</lable>
+                            <input class="form-control" name="firstName" required>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <lable>Last name</lable>
+                            <input class="form-control" name="lastName" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <lable>Birth date</lable>
+                            <input type="date" class="form-control" name="birthDate" required>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <lable>Gender</lable>
+                            <select class="w-100 mt-2" name="gender" id="">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <lable>Address</lable>
+                            <input class="form-control" name="address" required>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <lable>Mobile</lable>
+                            <input class="form-control" name="mobile" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <lable>Email</lable>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <lable>Salary</lable>
+                            <input type="number" class="form-control" name="salary" value="0" min="1" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <lable>Role</lable>
+                            <select class="w-100 mt-2" name="role" id="">
+                                <option value="Admin">Admin</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value="Save changes">
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+<script>
+    function openEditModal(id, username, firstName, lastName,birthDate, address, mobile, email,
+      salary, gender, role) {
+        $('input[name="id"]').val(id);
+        $('input[name="username"]').val(username);
+        $('input[name="firstName"]').val(firstName);
+        $('input[name="lastName"]').val(lastName);
+        $('input[name="birthDate"]').val(birthDate);
+        $('input[name="address"]').val(address);
+        $('input[name="mobile"]').val(mobile);
+        $('input[name="email"]').val(email);
+        $('input[name="salary"]').val(salary);
+        $('input[name="gender"]').select(gender);
+        $(`select[name="gender"] option[value='${gender}']`).prop('selected', true)
+        $(`select[name="role"] option[value='${role}']`).prop('selected', true)
+        $('#modalLabel').text("Edit Employee");
+    }
+     function resetModal() {
+         $('input[name="id"]').val('');
+         $('input[name="username"]').val('');
+         $('input[name="password"]').val('');
+         $('input[name="firstName"]').val('');
+         $('input[name="lastName"]').val('');
+         $('input[name="birthDate"]').val('');
+         $('input[name="address"]').val('');
+         $('input[name="mobile"]').val('');
+         $('input[name="email"]').val('');
+         $('input[name="salary"]').val(0);
+         $('#modalLabel').text("Add Employee");
+     }
+</script>

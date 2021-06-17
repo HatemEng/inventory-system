@@ -97,6 +97,7 @@ namespace Inventory.Persistence
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Item> Items { get; set; }
+        public DbSet<Order> Orders { get; set; }
     }
     
 }

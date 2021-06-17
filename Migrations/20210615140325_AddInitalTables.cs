@@ -150,12 +150,12 @@ namespace Inventory.Migrations
             migrationBuilder.InsertData(
                 table: "Employees",
                 columns: new[] { "Id", "Address", "BirthDate", "Email", "FirstName", "Gender", "LastName", "Mobile", "Role", "Salary", "UserId" },
-                values: new object[] { 2, "Baghdad, Al-Sadir City", new DateTime(1996, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "test@test.com", "Hatem", "Male", "karim", "07XXXXXXXXX", "admin", 1000, 2 });
+                values: new object[] { 2, "Baghdad, Al-Sadir City", new DateTime(1996, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "test@test.com", "Hatem", "Male", "karim", "07XXXXXXXXX", "Admin", 1000, 2 });
 
             migrationBuilder.InsertData(
                 table: "Employees",
                 columns: new[] { "Id", "Address", "BirthDate", "Email", "FirstName", "Gender", "LastName", "Mobile", "Role", "Salary", "UserId" },
-                values: new object[] { 1, "Baghdad, Karada", new DateTime(1996, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "test@test.com", "Hussain", "Male", "Nasir", "07XXXXXXXXX", "admin", 1000, 1 });
+                values: new object[] { 1, "Baghdad, Karada", new DateTime(1996, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "test@test.com", "Hussain", "Male", "Nasir", "07XXXXXXXXX", "Admin", 1000, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_UserId",

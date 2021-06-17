@@ -6,8 +6,9 @@
 ### features:-
 * Login page [&check;]
 * Manage inventory items [&check;]
-* Manage inventory orders requests
-* As customer can order items
+* Manage Customers and Employees [&check;]
+* Manage inventory orders requests [&check;]
+* As customer can order items [&check;]
 
 ### Notes:-
 * here the items related to pharmacy 

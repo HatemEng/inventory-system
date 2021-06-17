@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Orders";
+}
+@{ await Html.RenderPartialAsync("~/Views/Shared/Navigation.cshtml"); }
+
+<div class="container mt-5">
+    <table class="table table-sm table-hover text-center">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Customer Name</th>
+            <th scope="col">Item Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Date</th>
+            <th scope="col">Status</th>
+            <th>Operation</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var order in (List<Order>) Model)
+        {
+            <tr>
+                <td>@order.Id</td>
+                <td>@order.Customer.FirstName</td>
+                <td>@order.Item.TradeName</td>
+                <td>@order.Quantity</td>
+                <td>@order.Date.ToString("yyyy-M-d")</td>
+                <td>@order.Status</td>
+                <td>
+                    @if (@order.Status == Statics.Pending)
+                    {
+                        <a class="text-success" asp-controller="Orders" asp-action="Status" asp-route-id="@order.Id" asp-route-status="Approve">Approve</a>
+                        <a class="text-danger" asp-controller="Orders" asp-action="Status" asp-route-id="@order.Id" asp-route-status="Reject">Reject</a>
+                    }
+                </td>
+            </tr>
+        }
+
+        </tbody>
+    </table>
+</div>

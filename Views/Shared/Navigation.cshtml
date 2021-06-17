@@ -1,0 +1,42 @@
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand text-info" asp-controller="Home" asp-action="Index">Inventory System</a>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active" id="items">
+                    <a class="nav-link" asp-controller="Items" asp-action="Index">Items</a>
+                </li>
+                @if(ViewBag.accounType == "employee"){
+                    <li class="nav-item" id="employees">
+                        <a class="nav-link" asp-controller="Employees" asp-action="Index">Employees</a>
+                    </li>
+                
+                <li class="nav-item" id="customers">
+                    <a class="nav-link" asp-controller="Customers" asp-action="Index">Customers</a>
+                </li>
+                    <li class="nav-item" id="orders">
+                        <a class="nav-link" asp-controller="Orders" asp-action="Index">Orders</a>
+                    </li>
+                }
+            </ul>
+            <span class="navbar-text dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true" aria-expanded="false">@ViewBag.user_name</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" asp-controller="Auth" asp-action="Logout">Logout</a>
+                </div>
+            </span>
+        </div>
+    </div>
+</nav>
+
+
+<script>
+    let pathname = window.location.pathname.substr(1).toLocaleLowerCase();
+    Array.from(document.getElementsByClassName('nav-item')).forEach(item => item.classList.remove('active'));
+    if (pathname !== '')
+        document.getElementById(`${pathname}`).classList.add('active');
+</script>
