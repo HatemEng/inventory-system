@@ -17,7 +17,7 @@ namespace Inventory.Controllers
             _inventoryContext = inventoryContext;
         }
         
-        public IActionResult Index()
+        public IActionResult Index(string searchString)
         {
             ViewBag.user_name = HttpContext.Session.GetString("user_name");
             if (string.IsNullOrWhiteSpace(ViewBag.user_name))
@@ -26,10 +26,18 @@ namespace Inventory.Controllers
                return RedirectToAction("Index", "Auth");
             }
             ViewBag.accounType = HttpContext.Session.GetString("account_type");
-            return View(_inventoryContext.Items.ToList());
+            // for searching string
+            ViewBag.searchString = searchString;
+            var items = _inventoryContext.Items
+                .Where(p => 
+                    p.TradeName.ToLower().Contains(searchString??"".Trim().ToLower()) ||
+                    p.ScientificName.ToLower().Contains(searchString??"".Trim().ToLower()) || 
+                    p.Category.ToLower().Contains(searchString??"".Trim().ToLower()) ||
+                    p.Manufactures.ToLower().Contains(searchString??"".Trim().ToLower()) ||
+                    p.DangerousLevel.ToLower().Contains(searchString??"".Trim().ToLower()))
+                .ToList();
+            return View(items);
         }
-    
-       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

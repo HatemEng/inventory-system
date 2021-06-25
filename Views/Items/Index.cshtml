@@ -5,10 +5,29 @@
 
 
 <div class="container mt-5">
-    @if (ViewBag.accounType == "employee")
-    {
-        <button class="btn btn-primary mb-2" data-toggle="modal" onclick="resetModal()" data-target="#addModal">Add Item</button>
-    }
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            @if (ViewBag.accounType == "employee")
+            {
+                <button class="btn btn-primary mb-2" data-toggle="modal" onclick="resetModal()" data-target="#addModal">Add Item</button>
+            }
+        </div>
+        <div class="col-12 col-lg-6">
+            <form asp-controller="Items" asp-action="Index">
+                <div class="row">
+                    <div class="col-10">
+                        <input class="form-control" name="searchString" placeholder="Search for something..." value="@ViewBag.searchString"/>
+                    </div>
+                    <div class="col-2">
+                        <input type="submit" class="btn btn-secondary" value="Filter"/>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+
     <table class="table table-sm table-hover text-center">
         <thead>
         <tr>
@@ -32,13 +51,13 @@
                 <td>@item.Id</td>
                 <td>@item.TradeName</td>
                 <td>@item.ScientificName</td>
-                <td>@(item.Category??"-")</td>
-                <td>@(item.Manufactures??"-")</td>
-                <td>@(item.DangerousLevel??"-")</td>
-                <td>@(item.Packing??"-")</td>
+                <td>@(item.Category ?? "-")</td>
+                <td>@(item.Manufactures ?? "-")</td>
+                <td>@(item.DangerousLevel ?? "-")</td>
+                <td>@(item.Packing ?? "-")</td>
                 <td>@item.Price</td>
                 <td>@item.Quantity</td>
-                <td>@(item.IsActive == true? "Yes": "No")</td>
+                <td>@(item.IsActive == true ? "Yes" : "No")</td>
                 <td>
                     @if (ViewBag.accounType == "employee")
                     {
@@ -54,14 +73,15 @@
                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                             </svg>
                         </a>
-                    } else //if (ViewBag.accounType == "customers")
+                    }
+                    else if (ViewBag.accounType == "customers")
                     {
                         <a href="#" onclick="$('#itemId').val(@item.Id)" data-toggle="modal" data-target="#orderModal">Order</a>
                     }
                 </td>
             </tr>
         }
-        
+
         </tbody>
     </table>
 </div>

@@ -91,10 +91,10 @@ namespace Inventory.Controllers
         }
         public IActionResult Remove(int id)
         {
-            var employee = _inventoryContext.Customers.Include(p => p.User).SingleOrDefault(p => p.Id == id);
-            if (employee == null) return RedirectToAction("Index");
-            _inventoryContext.Customers.Remove(employee);
-            _inventoryContext.Users.Remove(employee.User);
+            var customer = _inventoryContext.Customers.Include(p => p.User).SingleOrDefault(p => p.Id == id);
+            if (customer == null) return RedirectToAction("Index");
+            _inventoryContext.Customers.Remove(customer);
+            _inventoryContext.Users.Remove(customer.User);
             _inventoryContext.SaveChanges();
             return RedirectToAction("Index");
         }
